@@ -1,8 +1,17 @@
 const path = require('path');
 const express = require('express');
-const { Server } = require('socket.io');
-
 const app = express();
+
+// Doğru sunucu kurulumu:
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
 const io = new Server(app, { cors: { origin: '*' } });
 const rooms = new Map();
 const PORT = process.env.PORT || 3000;
@@ -61,4 +70,8 @@ io.on('connection', socket => {
   socket.on('disconnect', () => leaveRoom(socket));
 });
 
-app.listen(PORT, () => console.log(`NEON RIFT online server listening on :${PORT}`));
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Sunucu ${PORT} portunda çalışıyor`);
+});
+
