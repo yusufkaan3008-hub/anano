@@ -12,7 +12,6 @@ const io = require('socket.io')(server, {
     }
 });
 
-const io = new Server(app, { cors: { origin: '*' } });
 const rooms = new Map();
 const PORT = process.env.PORT || 3000;
 
@@ -70,8 +69,6 @@ io.on('connection', socket => {
   socket.on('disconnect', () => leaveRoom(socket));
 });
 
-const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Sunucu ${PORT} portunda çalışıyor`);
 });
-
